@@ -30,10 +30,19 @@ int main(void)
 	FILE	*fp;
 	char	*line;
 	char	*line2;
+	char	*line3;
 	char	*dst;
 	int		r;
 	int		i;
 	char	*tests[] = {"test/64bit_line.txt", "test/64bit_paragraph.txt", "test/bar.txt", "test/empty.txt", "test/fewchar_perline.txt", "test/long_line.txt", "test/normal_long.txt", "test/normal.txt"};
+
+	line3 = NULL;
+	if (get_next_line(42, &line) == -1)
+		printf("wrong fd:\x1b[32m[OK]\x1b[39m\n");
+	else
+		printf("wrong fd:\x1b[31m[NG]\x1b[39m\n");
+	if (line)
+		free(line);
 
 	line2 = (char *)malloc(10000);
 	i = 0;
@@ -42,7 +51,7 @@ int main(void)
 		fd = open(tests[i], O_RDONLY);
 		fp = fopen(tests[i], "r");
 		r = 1;
-		// int j = 0;
+
 		while (r > 0)
 		{
 			r = get_next_line(fd, &line);
